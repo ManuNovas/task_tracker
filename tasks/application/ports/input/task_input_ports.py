@@ -24,3 +24,7 @@ class TaskInputPort(ABC):
     @abstractmethod
     def mark_in_progress(self, task_id: int) -> bool:
         pass
+
+    @abstractmethod
+    def mark_done(self, task_id: int) -> bool:
+        pass

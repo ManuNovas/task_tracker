@@ -44,6 +44,13 @@ class TaskCliAdapter:
                 print(f"Task {str(task_id)} marked in progress")
             else:
                 return self.task_not_found(task_id)
+        elif command == "mark-done" and argl == 3:
+            task_id = int(argv[2])
+            marked = self.input_port.mark_done(task_id)
+            if marked:
+                print(f"Task {str(task_id)} marked done")
+            else:
+                return self.task_not_found(task_id)
         else:
             print("Unknown command or not enough arguments to continue")
             return 2

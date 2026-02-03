@@ -38,3 +38,6 @@ class TaskUseCases(TaskInputPort):
 
     def mark_in_progress(self, task_id: int) -> bool:
         return self.mark_status(task_id, TaskStatus.IN_PROGRESS)
+
+    def mark_done(self, task_id: int) -> bool:
+        return self.mark_status(task_id, TaskStatus.DONE)

@@ -61,15 +61,26 @@ class TaskTests(TestCase):
         code = self.adapter.main(["main.py", "delete", "-1"])
         self.assertEqual(code, 3)
 
-    def test_mark_in_progress_done(self):
+    def test_mark_in_progress_success(self):
         task = self.add_task()
         code = self.adapter.main(["main.py", "mark-in-progress", task["id"]])
-        marked_task = self.repository.get_by_id(task["id"])
+        in_progress_task = self.repository.get_by_id(task["id"])
         self.assertEqual(code, 0)
-        self.assertEqual(marked_task["status"], TaskStatus.IN_PROGRESS.value)
+        self.assertEqual(in_progress_task["status"], TaskStatus.IN_PROGRESS.value)
 
     def test_mark_in_progress_not_found(self):
         code = self.adapter.main(["main.py", "mark-in-progress", "-1"])
+        self.assertEqual(code, 3)
+
+    def test_mark_done_success(self):
+        task = self.add_task()
+        code = self.adapter.main(["main.py", "mark-done", task["id"]])
+        done_task = self.repository.get_by_id(task["id"])
+        self.assertEqual(code, 0)
+        self.assertEqual(done_task["status"], TaskStatus.DONE.value)
+
+    def test_mark_done_not_found(self):
+        code = self.adapter.main(["main.py", "mark-done", "-1"])
         self.assertEqual(code, 3)
 
     def test_unknown_command(self):
