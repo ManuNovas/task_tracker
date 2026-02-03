@@ -29,3 +29,7 @@ class Task:
     def set_description(self, description: str):
         self.description = description
         self.updated_at = datetime.now()
+
+    def set_status(self, status: TaskStatus):
+        self.status = status
+        self.updated_at = datetime.now()

@@ -27,3 +27,14 @@ class TaskUseCases(TaskInputPort):
 
     def delete(self, task_id: int) -> bool:
         return self.output.delete(task_id)
+
+    def mark_status(self, task_id: int, status: TaskStatus) -> bool:
+        data = self.output.get_by_id(task_id)
+        if data is None:
+            return False
+        task = Task(data)
+        task.set_status(status)
+        return self.output.update(task.to_dict())
+
+    def mark_in_progress(self, task_id: int) -> bool:
+        return self.mark_status(task_id, TaskStatus.IN_PROGRESS)
