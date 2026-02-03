@@ -60,3 +60,13 @@ class TaskJsonRepository(TaskOutputPort):
                 return True
             i += 1
         return False
+
+    def get_all(self, status: str | None) -> list[dict]:
+        self.open()
+        if status is None:
+            return self.data
+        tasks = []
+        for data in self.data:
+            if data["status"] == status:
+                tasks.append(data)
+        return tasks

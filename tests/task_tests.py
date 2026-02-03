@@ -16,11 +16,11 @@ class TaskTests(TestCase):
         use_cases = TaskUseCases(self.repository)
         self.adapter = TaskCliAdapter(use_cases)
 
-    def add_task(self) -> dict:
+    def add_task(self, status: TaskStatus = TaskStatus.TODO) -> dict:
         task = {
             "id": self.repository.get_next_id(),
             "description": "Learn python basis",
-            "status": TaskStatus.TODO.value,
+            "status": status.value,
             "createdAt": datetime.now().isoformat(),
             "updatedAt": None,
         }
@@ -82,6 +82,30 @@ class TaskTests(TestCase):
     def test_mark_done_not_found(self):
         code = self.adapter.main(["main.py", "mark-done", "-1"])
         self.assertEqual(code, 3)
+
+    def test_list_success(self):
+        task = self.add_task()
+        code = self.adapter.main(["main.py", "list"])
+        self.assertEqual(code, 0)
+        self.assertLogs(task["id"])
+
+    def test_list_todo(self):
+        task = self.add_task(status=TaskStatus.TODO)
+        code = self.adapter.main(["main.py", "list", "todo"])
+        self.assertEqual(code, 0)
+        self.assertLogs(task["id"])
+
+    def test_list_in_progress(self):
+        task = self.add_task(status=TaskStatus.IN_PROGRESS)
+        code = self.adapter.main(["main.py", "list", "in_progress"])
+        self.assertEqual(code, 0)
+        self.assertLogs(task["id"])
+
+    def test_list_done(self):
+        task = self.add_task(status=TaskStatus.DONE)
+        code = self.adapter.main(["main.py", "list", "done"])
+        self.assertEqual(code, 0)
+        self.assertLogs(task["id"])
 
     def test_unknown_command(self):
         code = self.adapter.main(["main.py", "patch"])

@@ -51,6 +51,11 @@ class TaskCliAdapter:
                 print(f"Task {str(task_id)} marked done")
             else:
                 return self.task_not_found(task_id)
+        elif command == "list":
+            status = argv[2] if len(argv) == 3 else None
+            tasks = self.input_port.list(status)
+            for task in tasks:
+                print(f"{task['id']}. {task['description']} - {task['status']}")
         else:
             print("Unknown command or not enough arguments to continue")
             return 2

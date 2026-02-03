@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from tasks.application.ports.output import TaskOutputPort
+from tasks.domain.enums import TaskStatus
 
 
 class TaskInputPort(ABC):
@@ -27,4 +28,8 @@ class TaskInputPort(ABC):
 
     @abstractmethod
     def mark_done(self, task_id: int) -> bool:
+        pass
+
+    @abstractmethod
+    def list(self, status: TaskStatus | None) -> list[dict]:
         pass

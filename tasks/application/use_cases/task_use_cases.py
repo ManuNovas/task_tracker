@@ -41,3 +41,8 @@ class TaskUseCases(TaskInputPort):
 
     def mark_done(self, task_id: int) -> bool:
         return self.mark_status(task_id, TaskStatus.DONE)
+
+    def list(self, status: str | None) -> list[dict]:
+        if status is not None and not status in TaskStatus:
+            return []
+        return self.output.get_all(status)

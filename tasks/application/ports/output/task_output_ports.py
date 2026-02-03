@@ -25,3 +25,7 @@ class TaskOutputPort(ABC):
     @abstractmethod
     def delete(self, task_id: int) -> bool:
         pass
+
+    @abstractmethod
+    def get_all(self, status: str | None) -> list[dict]:
+        pass
