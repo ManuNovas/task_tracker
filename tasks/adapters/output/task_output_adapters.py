@@ -49,3 +49,14 @@ class TaskJsonRepository(TaskOutputPort):
                 return True
             i += 1
         return False
+
+    def delete(self, task_id: int) -> bool:
+        self.open()
+        i = 0
+        for data in self.data:
+            if data["id"] == task_id:
+                self.data.pop(i)
+                self.save()
+                return True
+            i += 1
+        return False

@@ -24,3 +24,6 @@ class TaskUseCases(TaskInputPort):
         task = Task(data)
         task.set_description(description)
         return self.output.update(task.to_dict())
+
+    def delete(self, task_id: int) -> bool:
+        return self.output.delete(task_id)

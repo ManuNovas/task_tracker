@@ -30,6 +30,13 @@ class TaskCliAdapter:
                 print(f"Task {str(task_id)} updated")
             else:
                 return self.task_not_found(task_id)
+        elif command == "delete" and argl == 3:
+            task_id = int(argv[2])
+            deleted = self.input_port.delete(task_id)
+            if deleted:
+                print(f"Task {str(task_id)} deleted")
+            else:
+                return self.task_not_found(task_id)
         else:
             print("Unknown command or not enough arguments to continue")
             return 2

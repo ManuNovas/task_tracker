@@ -50,6 +50,17 @@ class TaskTests(TestCase):
         code = self.adapter.main(["main.py", "update", "-1", "Learn python basis updated"])
         self.assertEqual(code, 3)
 
+    def test_delete_success(self):
+        task = self.add_task()
+        code = self.adapter.main(["main.py", "delete", task["id"]])
+        deleted_task = self.repository.get_by_id(task["id"])
+        self.assertEqual(code, 0)
+        self.assertEqual(deleted_task, None)
+
+    def test_delete_not_found(self):
+        code = self.adapter.main(["main.py", "delete", "-1"])
+        self.assertEqual(code, 3)
+
     def test_unknown_command(self):
         code = self.adapter.main(["main.py", "patch"])
         self.assertEqual(code, 2)
