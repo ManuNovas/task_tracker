@@ -14,6 +14,7 @@ Clone the project and set up a virtual environment
 git clone https://github.com/ManuNovas/task_tracker
 python3 -venv .venv
 source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ## Usage
@@ -38,6 +39,16 @@ You can test the application with the following command
 
 ```shell
 python -m unittest tests/task_tests.py
+```
+
+### Coverage
+
+You can run test with code coverage options
+
+```shell
+coverage run -m unittest tests/task_tests.py 
+coverage report
+coverage html # Display report in html
 ```
 
 ## Project URL

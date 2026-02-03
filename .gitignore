@@ -19,3 +19,7 @@ env/
 
 # App info
 tasks.json
+
+# Coverage
+htmlcov/
+.coverage
