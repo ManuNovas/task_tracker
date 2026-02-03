@@ -7,12 +7,20 @@ from tasks.domain.models import Task
 
 class TaskUseCases(TaskInputPort):
     def add(self, description: str) -> int:
-        task = Task(
-            id=self.output.get_next_id(),
-            description=description,
-            status=TaskStatus.TODO,
-            createdAt=datetime.now(),
-            updatedAt=None
-        )
-        self.output.add(task.to_dict())
-        return task.id
+        data = {
+            "id": self.output.get_next_id(),
+            "description": description,
+            "status": TaskStatus.TODO.value,
+            "createdAt": datetime.now().isoformat(),
+            "updatedAt": None,
+        }
+        self.output.add(data)
+        return data["id"]
+
+    def update(self, task_id: int, description: str) -> bool:
+        data = self.output.get_by_id(task_id)
+        if data is None:
+            return False
+        task = Task(data)
+        task.set_description(description)
+        return self.output.update(task.to_dict())

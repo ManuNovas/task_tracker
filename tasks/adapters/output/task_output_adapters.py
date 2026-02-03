@@ -31,3 +31,21 @@ class TaskJsonRepository(TaskOutputPort):
     def get_last(self) -> dict:
         self.open()
         return self.data[-1]
+
+    def get_by_id(self, task_id: int) -> dict | None:
+        self.open()
+        for data in self.data:
+            if data["id"] == task_id:
+                return data
+        return None
+
+    def update(self, task: dict) -> bool:
+        self.open()
+        i = 0
+        for data in self.data:
+            if data["id"] == task["id"]:
+                self.data[i] = task
+                self.save()
+                return True
+            i += 1
+        return False

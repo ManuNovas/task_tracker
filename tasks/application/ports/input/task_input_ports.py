@@ -11,3 +11,6 @@ class TaskInputPort(ABC):
 
     def add(self, description: str) -> int:
         pass
+
+    def update(self, task_id: int, description: str) -> bool:
+        pass

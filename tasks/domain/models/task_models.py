@@ -7,21 +7,25 @@ class Task:
     id: int
     description: str
     status: TaskStatus
-    createdAt: datetime
-    updatedAt: datetime | None
+    created_at: datetime
+    updated_at: datetime | None
 
-    def __init__(self, id: int, description: str, status: TaskStatus, createdAt: datetime, updatedAt: datetime | None):
-        self.id = id
-        self.description = description
-        self.status = status
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
+    def __init__(self, data: dict):
+        self.id = int(data["id"])
+        self.description = data["description"]
+        self.status = TaskStatus(data["status"])
+        self.created_at = datetime.fromisoformat(data["createdAt"])
+        self.updated_at = datetime.fromisoformat(data["updatedAt"]) if data["updatedAt"] else None
 
     def to_dict(self):
         return {
             "id": self.id,
             "description": self.description,
             "status": self.status.value,
-            "createdAt": self.createdAt.isoformat(),
-            "updatedAt": self.updatedAt.isoformat() if self.updatedAt else None,
+            "createdAt": self.created_at.isoformat(),
+            "updatedAt": self.updated_at.isoformat() if self.updated_at else None,
         }
+
+    def set_description(self, description: str):
+        self.description = description
+        self.updated_at = datetime.now()

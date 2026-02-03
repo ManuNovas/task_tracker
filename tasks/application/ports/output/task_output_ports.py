@@ -12,3 +12,9 @@ class TaskOutputPort(ABC):
 
     def get_last(self) -> dict:
         pass
+
+    def get_by_id(self, task_id: int) -> dict | None:
+        pass
+
+    def update(self, task: dict) -> bool:
+        pass
