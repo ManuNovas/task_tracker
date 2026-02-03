@@ -14,5 +14,5 @@ class TaskUseCases(TaskInputPort):
             createdAt=datetime.now(),
             updatedAt=None
         )
-        self.output.add(task)
+        self.output.add(task.to_dict())
         return task.id

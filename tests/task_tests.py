@@ -23,4 +23,4 @@ class TaskTests(TestCase):
         code = self.adapter.main(["main.py", "add", description])
         task = self.repository.get_last()
         self.assertEqual(code, 0)
-        self.assertEqual(description, task.description)
+        self.assertEqual(description, task["description"])

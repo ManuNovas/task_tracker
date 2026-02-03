@@ -1,25 +1,12 @@
-from datetime import datetime
 from json import load, dump
 from os.path import exists
 
 from tasks.application.ports.output import TaskOutputPort
-from tasks.domain.enums import TaskStatus
-from tasks.domain.models import Task
 
 
 class TaskJsonRepository(TaskOutputPort):
     FILE_PATH = "./tasks.json"
     data: list[dict]
-
-    @staticmethod
-    def to_task(data: dict) -> Task:
-        return Task(
-            id=data["id"],
-            description=data["description"],
-            status=TaskStatus(data["status"]),
-            createdAt=datetime.fromisoformat(data["createdAt"]),
-            updatedAt=datetime.fromisoformat(data["updatedAt"]) if data["updatedAt"] else None,
-        )
 
     def open(self):
         if not exists(self.FILE_PATH):
@@ -36,11 +23,11 @@ class TaskJsonRepository(TaskOutputPort):
         with open(self.FILE_PATH, "w") as file:
             dump(self.data, file)
 
-    def add(self, task: Task):
+    def add(self, task: dict):
         self.open()
-        self.data.append(task.to_dict())
+        self.data.append(task)
         self.save()
 
-    def get_last(self) -> Task:
+    def get_last(self) -> dict:
         self.open()
-        return self.to_task(self.data[-1])
+        return self.data[-1]

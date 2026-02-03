@@ -7,8 +7,8 @@ class TaskOutputPort(ABC):
     def get_next_id(self) -> int:
         pass
 
-    def add(self, task: Task):
+    def add(self, task: dict):
         pass
 
-    def get_last(self) -> Task:
+    def get_last(self) -> dict:
         pass
